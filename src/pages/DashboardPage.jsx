@@ -1,4 +1,3 @@
-// frontend/src/pages/DashboardPage.jsx
 import React from "react";
 import Dashboard from "../components/Dashboard.jsx";
 import CalendarView from "../components/CalendarView.jsx";
@@ -7,7 +6,6 @@ import TodoView from "../components/TodoView.jsx";
 const DashboardPage = () => {
   return (
     <div className="space-y-6">
-      {/* Top: main overview stats / competition / streak */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <div>
@@ -25,7 +23,6 @@ const DashboardPage = () => {
         </div>
       </section>
 
-      {/* Bottom: calendar + task queue side-by-side */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-sm md:text-base font-semibold text-slate-100">
@@ -36,9 +33,7 @@ const DashboardPage = () => {
           </p>
         </div>
 
-        {/* Side-by-side on large screens, stacked on mobile */}
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr),minmax(0,1fr)]">
-          {/* Left: calendar schedule only */}
           <div className="neo-card p-3 md:p-4 flex flex-col calendar-box">
             <div className="flex items-center justify-between mb-2">
               <p className="text-xs text-slate-400">Schedule</p>
@@ -51,7 +46,6 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          {/* Right: today's tasks only */}
           <div className="flex flex-col space-y-2 today-queue-box">
             <div className="flex items-center justify-between px-1">
               <p className="text-xs text-slate-400">Today&apos;s tasks</p>

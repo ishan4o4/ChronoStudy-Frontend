@@ -25,27 +25,20 @@ const SettingsPage = () => {
   const [savingTheme, setSavingTheme] = useState(false);
 
   // ----- Notifications -----
-  // FIX 1: Initialize form state to an empty object. This prevents the form from showing defaults 
-  // before the DB data arrives via the context.
   const [notifForm, setNotifForm] = useState({}); 
   const [savingNotif, setSavingNotif] = useState(false);
 
-  // General status message
   const [status, setStatus] = useState(null);
 
-  // Keep theme in sync if user changes
   useEffect(() => {
     if (user?.vibe) {
       setTheme(user.vibe);
     }
   }, [user?.vibe]);
 
-  // FIX 2: Whenever settings from context change, sync into local form.
   useEffect(() => {
-    // If settings is null (still loading), do nothing.
     if (!settings) return; 
 
-    // Once settings arrive (guaranteed to be DB or context's internal default), set the form state.
     setNotifForm({
       enabled: settings.enabled ?? defaultSettings.enabled,
       highEvery: settings.highEvery ?? defaultSettings.highEvery,
@@ -54,7 +47,6 @@ const SettingsPage = () => {
       defaultSnooze:
         settings.defaultSnooze ?? defaultSettings.defaultSnooze
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]); 
 
   /* ============================
@@ -139,10 +131,8 @@ const SettingsPage = () => {
         defaultSnooze: Number(notifForm.defaultSnooze)
       };
 
-      // 1. Update settings in context (and DB)
       await updateSettings(payload);
 
-      // 2. CRITICAL: Force reload from DB to ensure component has fresh data after save.
       await reload();
 
       setStatus({
@@ -160,7 +150,6 @@ const SettingsPage = () => {
     }
   };
 
-  // Prevent form from rendering if settings haven't loaded yet.
   const isFormReady = !notifLoading && settings && Object.keys(notifForm).length > 0;
 
 
@@ -181,9 +170,7 @@ const SettingsPage = () => {
         )}
       </header>
       
-      {/* ... Password and Theme sections ... */}
       <section className="grid gap-4 md:grid-cols-2">
-        {/* Change password */}
         <div className="neo-card p-4 md:p-6">
           <h2 className="text-sm md:text-base font-semibold text-slate-100 mb-1">
             Change password

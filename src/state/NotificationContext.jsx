@@ -5,7 +5,6 @@ import { useAuth } from "./AuthContext.jsx";
 const NotificationContext = createContext();
 export const useNotifications = () => useContext(NotificationContext);
 
-// Backend defaults (for fallback only)
 const defaultSettings = {
   enabled: true,
   highEvery: 15,
@@ -17,11 +16,9 @@ const defaultSettings = {
 export const NotificationProvider = ({ children }) => {
   const { user } = useAuth();
 
-  // SETTINGS
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // CURRENT NOTIFICATION (popup)
   const [current, setCurrent] = useState(null);
 
   // -------------------------------------------------
@@ -65,7 +62,6 @@ export const NotificationProvider = ({ children }) => {
       setCurrent(null);
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // -------------------------------------------------
@@ -128,7 +124,6 @@ export const NotificationProvider = ({ children }) => {
           priority: due.priority,
         };
 
-        // Only trigger if it's a NEW notification
         if (!current || current.task._id !== nextCurrent.task._id) {
           setCurrent(nextCurrent);
           showBrowserNotification(due.title, due.subject);
@@ -145,10 +140,9 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    // initial check
     fetchUpcoming();
 
-    const id = setInterval(fetchUpcoming, 1000); // every 1 sec
+    const id = setInterval(fetchUpcoming, 1000);
 
     const onFocus = () => fetchUpcoming();
     window.addEventListener("visibilitychange", onFocus);
@@ -159,7 +153,6 @@ export const NotificationProvider = ({ children }) => {
       window.removeEventListener("visibilitychange", onFocus);
       window.removeEventListener("focus", onFocus);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, current]);
 
   // -------------------------------------------------

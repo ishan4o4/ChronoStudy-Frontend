@@ -22,22 +22,18 @@ const TodoView = ({ variant = "full" }) => {
   const [loadingList, setLoadingList] = useState(false);
   const [currentTime, setCurrentTime] = useState(Date.now());
 
-  // Get notification settings from context
   const { settings: notificationSettings } = useNotifications();
 
-  // Update current time every 1 second for real-time countdown / tracking
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(Date.now());
-    }, 1000); // 1 second
+    }, 1000); 
 
     return () => clearInterval(interval);
   }, []);
 
-  // showPrevious only in full mode (Tasks page)
   const showPrevious = variant === "full";
 
-  // Helper: same calendar day?
   const isSameDay = (d1, d2) => {
     if (!d1 || !d2) return false;
     return (
@@ -47,11 +43,9 @@ const TodoView = ({ variant = "full" }) => {
     );
   };
 
-  // Helper function to get notification interval based on priority
   const getNotificationInterval = (task) => {
     if (!notificationSettings) return null;
 
-    // Use task's stored settings if available, otherwise use global settings
     const settings = task.notificationSettings || notificationSettings;
     const priority = task.priority || "medium";
 
@@ -67,7 +61,6 @@ const TodoView = ({ variant = "full" }) => {
     }
   };
 
-  // Calculate time until next notification
   const getTimeUntilNextNotification = (task) => {
     if (!notificationSettings?.enabled) return null;
     if (task.completed || task.status === "completed") return null;
@@ -108,7 +101,6 @@ const TodoView = ({ variant = "full" }) => {
     }
   };
 
-  // ⏱ calculate tracked minutes including current running timer
   const getTrackedMinutes = (task) => {
     if (!task) return 0;
 
@@ -264,7 +256,6 @@ const TodoView = ({ variant = "full" }) => {
     }
   };
 
-  // ---- SPLIT TASKS: TODAY vs PREVIOUS ----
   const nowDate = new Date(currentTime);
 
   const todayTasks = tasks.filter((task) => {
@@ -279,7 +270,6 @@ const TodoView = ({ variant = "full" }) => {
     return !isSameDay(created, nowDate);
   });
 
-  // Reusable renderer for a list of tasks
   const renderTaskList = (list) => {
     return (
       <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
@@ -416,7 +406,6 @@ const TodoView = ({ variant = "full" }) => {
 
   return (
     <div className="space-y-4">
-      {/* Add task form – always visible (also on dashboard, like your screenshot) */}
       <form
         onSubmit={onSubmit}
         className="neo-card p-4 flex flex-col md:flex-row gap-3 items-start md:items-center"
@@ -452,7 +441,7 @@ const TodoView = ({ variant = "full" }) => {
         </button>
       </form>
 
-      {/* Section 1: Today's queue */}
+      {/* Section 1*/}
       <div className="neo-card p-4">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs text-slate-400">Today&apos;s queue</p>
@@ -463,7 +452,7 @@ const TodoView = ({ variant = "full" }) => {
         {renderTaskList(todayTasks)}
       </div>
 
-      {/* Section 2: Previous tasks – only in full (Tasks page) */}
+      {/* Section 2*/}
       {showPrevious && (
         <div className="neo-card p-4">
           <div className="flex items-center justify-between mb-3">

@@ -18,7 +18,6 @@ const humanDate = (dateStr) => {
   });
 };
 
-// Pretty formatter for recurrence string, e.g. "FREQ=DAILY;INTERVAL=1;COUNT=10"
 const formatRecurrenceLabel = (rule) => {
   try {
     const parts = rule.split(";").reduce((acc, part) => {
@@ -44,7 +43,6 @@ const formatRecurrenceLabel = (rule) => {
   }
 };
 
-// 🔹 Added prop showEditor: when false, only schedule is shown (no right panel)
 const CalendarView = ({ showEditor = true }) => {
   const [events, setEvents] = useState([]);
   const [viewType, setViewType] = useState("week");
@@ -52,7 +50,7 @@ const CalendarView = ({ showEditor = true }) => {
     () => new Date().toISOString().slice(0, 10)
   );
 
-  const [tab, setTab] = useState("task"); // "event" | "task"
+  const [tab, setTab] = useState("task");
   const [title, setTitle] = useState("");
   const [subjectId, setSubjectId] = useState("");
   const [description, setDescription] = useState("");
@@ -61,13 +59,13 @@ const CalendarView = ({ showEditor = true }) => {
   const [startTime, setStartTime] = useState("08:00");
   const [endTime, setEndTime] = useState("09:00");
 
-  const [repeatMode, setRepeatMode] = useState("none"); // "none" | "daily" | "weekly" | "monthly" | "custom"
+  const [repeatMode, setRepeatMode] = useState("none");
   const [repeatInterval, setRepeatInterval] = useState(1);
   const [repeatCount, setRepeatCount] = useState(10);
   const [showCustom, setShowCustom] = useState(false);
-  const [customUnit, setCustomUnit] = useState("week"); // day|week|month
+  const [customUnit, setCustomUnit] = useState("week"); 
   const [customEvery, setCustomEvery] = useState(1);
-  const [customEndMode, setCustomEndMode] = useState("after"); // after|never
+  const [customEndMode, setCustomEndMode] = useState("after");
   const [customEndCount, setCustomEndCount] = useState(8);
 
   const [saving, setSaving] = useState(false);
@@ -120,7 +118,7 @@ const CalendarView = ({ showEditor = true }) => {
       return { from, to };
     }
     if (viewType === "week") {
-      const day = base.getDay(); // 0 Sun..6 Sat
+      const day = base.getDay(); 
       const mondayOffset = (day + 6) % 7;
       const from = new Date(base);
       from.setDate(from.getDate() - mondayOffset);
@@ -129,7 +127,6 @@ const CalendarView = ({ showEditor = true }) => {
       to.setHours(23, 59, 59, 999);
       return { from, to };
     }
-    // month
     const from = new Date(base.getFullYear(), base.getMonth(), 1);
     const to = new Date(base.getFullYear(), base.getMonth() + 1, 0);
     to.setHours(23, 59, 59, 999);
@@ -156,7 +153,6 @@ const CalendarView = ({ showEditor = true }) => {
 
   useEffect(() => {
     loadEvents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewType, selectedDate]);
 
   const groupedEvents = useMemo(() => {

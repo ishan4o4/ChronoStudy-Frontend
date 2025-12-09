@@ -44,11 +44,10 @@ const OnboardingOverlay = () => {
   const [visible, setVisible] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [highlightRect, setHighlightRect] = useState(null);
-  const [tooltipStyle, setTooltipStyle] = useState({}); // New state for dynamic tooltip style
+  const [tooltipStyle, setTooltipStyle] = useState({}); 
 
   const step = steps[stepIndex];
 
-  // Get onboarding status from server
   useEffect(() => {
     const load = async () => {
       try {
@@ -61,42 +60,32 @@ const OnboardingOverlay = () => {
     load();
   }, []);
 
-  // Function to determine tooltip placement dynamically
   const getTooltipPosition = (rect) => {
-    const tooltipHeight = 200; // Estimated height for visibility check
+    const tooltipHeight = 200;
     const padding = 16;
     let top, left;
 
-    // Default placement: BELOW the highlighted element
     top = rect.bottom + padding;
     left = rect.left;
 
-    // Check if placing it BELOW pushes it off the bottom of the viewport
     if (top + tooltipHeight > window.innerHeight) {
-      // Alternative placement: ABOVE the highlighted element
       top = rect.top - padding - tooltipHeight;
-      
-      // If placing it ABOVE still goes off the top (unlikely for most dashboard elements),
-      // force it to the top of the viewport
       if (top < padding) {
         top = padding;
       }
     }
     
-    // Ensure it doesn't overflow the right side of the screen
     const tooltipWidth = 320; 
     if (left + tooltipWidth > window.innerWidth - padding) {
       left = window.innerWidth - tooltipWidth - padding;
     }
     
-    // Ensure it doesn't go off the left side
     left = Math.max(padding, left);
 
 
     return { top, left };
   };
 
-  // Function to calculate position, including re-calculation on scroll/resize
   const calculatePosition = () => {
     if (!visible || !step) return;
 
@@ -109,7 +98,6 @@ const OnboardingOverlay = () => {
 
     const rect = el.getBoundingClientRect();
 
-    // 1. Calculate Highlight position (using viewport coords)
     const padding = 10;
     const highlight = {
       top: rect.top - padding,
@@ -119,21 +107,16 @@ const OnboardingOverlay = () => {
     };
     setHighlightRect(highlight);
     
-    // 2. Calculate Tooltip position for visibility
     setTooltipStyle(getTooltipPosition(rect));
     
-    // Auto-scroll the page to bring the element into view if needed
     if (rect.top < 0 || rect.bottom > window.innerHeight) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
-  // Set up listeners for initial position, resize, and scroll
   useEffect(() => {
     if (!visible) return;
 
-    // Initial calculation after a slight delay for layout stability
-    // We use a small loop to ensure the element has fully rendered and has dimensions
     let timerId;
     const maxAttempts = 10;
     let attempts = 0;
@@ -188,13 +171,11 @@ const OnboardingOverlay = () => {
 
   return (
     <>
-      {/* Dark overlay: Lighter opacity (bg-black/40), allows interaction */}
       <div 
           className="fixed inset-0 bg-black/40 z-[9998]"
-          style={{ pointerEvents: 'none' }} // FIX: Allows scroll/clicks to pass
+          style={{ pointerEvents: 'none' }} 
       />
 
-      {/* Highlight "spotlight" */}
       <div
         className="fixed z-[9999] rounded-xl border-2 border-neon-blue shadow-[0_0_25px_rgba(0,255,255,0.5)] transition-all duration-300"
         style={{
@@ -206,10 +187,9 @@ const OnboardingOverlay = () => {
         }}
       />
 
-      {/* Floating tooltip box - Uses calculated style for visibility */}
       <div
         className="fixed z-[10000] neo-card p-4 rounded-xl shadow-xl bg-slate-900/95 border border-slate-700 w-80 max-w-[90vw]"
-        style={tooltipStyle} // <<<< Uses dynamically calculated top/left
+        style={tooltipStyle}
       >
         <h3 className="text-sm font-semibold text-slate-100 mb-1">
           {step.title}

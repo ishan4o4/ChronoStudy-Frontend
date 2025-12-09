@@ -13,7 +13,6 @@ import SettingsPage from "./pages/SettingsPage.jsx";
 import NotificationCenter from "./components/NotificationCenter.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 
-// ⭐ NEW: onboarding tutorial overlay
 import OnboardingOverlay from "./components/OnboardingOverlay.jsx";
 
 const navItems = [
@@ -31,14 +30,11 @@ const AppShell = () => {
 
   return (
     <div className="flex h-screen flex-col bg-slate-950 text-slate-100">
-      {/* Top bar with mobile menu toggle */}
-      {/* === ADDED CLASS: app-topbar === */}
       <div className="app-topbar">
           <TopBar onToggleSidebar={toggleSidebar} />
       </div>
 
       <main className="flex flex-1 overflow-hidden">
-        {/* MOBILE overlay when sidebar is open */}
         {sidebarOpen && (
           <div
             className="fixed inset-0 z-20 bg-black/50 md:hidden"
@@ -46,15 +42,12 @@ const AppShell = () => {
           />
         )}
 
-        {/* SIDEBAR */}
-        {/* === ADDED CLASS: app-sidebar === */}
         <aside
           className={[
             "fixed inset-y-0 left-0 z-30 w-56 border-r border-slate-800/80 bg-slate-950/95 p-4",
             "transform transition-transform duration-200 ease-out",
             "md:static md:translate-x-0 md:bg-slate-950/80",
             sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
-             // Add the custom class here to ensure it's always present:
              "app-sidebar"
           ].join(" ")}
         >
@@ -84,16 +77,12 @@ const AppShell = () => {
           </nav>
         </aside>
 
-        {/* MAIN CONTENT */}
         <section className="flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </section>
       </main>
 
-      {/* Global notifications */}
       <NotificationCenter />
-
-      {/* ⭐ Onboarding tutorial for first-time users */}
       <OnboardingOverlay />
     </div>
   );
@@ -102,7 +91,6 @@ const AppShell = () => {
 const AppRoutes = () => {
   const { user } = useAuth();
 
-  // 🟦 Not logged in → Landing + Login
   if (!user) {
     return (
       <Routes>
@@ -114,7 +102,6 @@ const AppRoutes = () => {
     );
   }
 
-  // 🟩 Logged in → main app
   return (
     <Routes>
       <Route element={<AppShell />}>

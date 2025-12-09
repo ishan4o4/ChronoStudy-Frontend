@@ -97,19 +97,14 @@ const Dashboard = () => {
 
   // ---- COMPETITION LOGIC ----
 
-  // Save competition email to backend profile
   const saveCompetitionEmail = async (email) => {
     try {
       await api.post("/auth/competition-email", { email });
     } catch (err) {
       console.error("Failed to save competition email", err);
-      // not fatal for UI
     }
   };
 
-  // Fetch competition stats; can be used for:
-  // - explicit Go click (persist: true)
-  // - silent auto-load on refresh (persist: false, silent: true)
   const fetchCompetition = async (emailOverride, options = {}) => {
     const { persist = false, silent = false } = options;
 
@@ -151,7 +146,6 @@ const Dashboard = () => {
     }
   };
 
-  // 🔹 On mount / when user changes: load saved competition email from DB
   useEffect(() => {
     if (!user) return;
 
@@ -170,10 +164,8 @@ const Dashboard = () => {
     };
 
     loadSavedEmail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?._id]);
 
-  // Today comes directly from backend summary (timezone-aware)
   const todayMinutes = summary.todayMinutes || 0;
 
   const averageDailyMinutes =

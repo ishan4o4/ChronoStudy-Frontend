@@ -28,8 +28,8 @@ body {
 .tour-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;              /* Above app chrome, below toasts if any */
-  pointer-events: none;     /* App is "blocked" only inside tooltip/spotlight */
+  z-index: 60;
+  pointer-events: none; 
 }
 
 /* Spotlight using box-shadow to dim the rest of the screen */
@@ -37,8 +37,8 @@ body {
   position: fixed;
   border-radius: 18px;
   box-shadow:
-    0 0 0 2px #22d3ee,       /* cyan outline */
-    0 0 0 9999px rgba(2, 6, 23, 0.78); /* darken everything else */
+    0 0 0 2px #22d3ee,
+    0 0 0 9999px rgba(2, 6, 23, 0.78);
   pointer-events: none;
 }
 
@@ -48,7 +48,7 @@ body {
   left: 16px;
   bottom: 16px;
   z-index: 70;
-  pointer-events: auto;      /* buttons are clickable */
+  pointer-events: auto;
 }
 
 /* Tooltip card */
@@ -118,7 +118,6 @@ body {
   filter: brightness(1.08);
 }
 
-/* Small screens tweaks */
 @media (max-width: 640px) {
   .tour-tooltip-wrapper {
     left: 8px;

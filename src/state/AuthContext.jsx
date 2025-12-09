@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    api.setToken(token); // ensures /auth/update-theme & /auth/change-password are authed
+    api.setToken(token); 
   }, [token]);
 
   return (

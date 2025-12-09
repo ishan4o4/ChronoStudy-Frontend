@@ -17,7 +17,6 @@ const TopBar = ({ onToggleSidebar }) => {
     (email && email[0]?.toUpperCase()) ||
     "I";
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClick = (e) => {
       if (!menuRef.current) return;
@@ -58,9 +57,8 @@ const TopBar = ({ onToggleSidebar }) => {
 
   return (
     <header className="flex items-center justify-between border-b border-slate-800/70 bg-slate-950/90 px-4 py-3 md:px-6">
-      {/* Left: sidebar toggle (mobile) + live indicator */}
       <div className="flex items-center gap-3">
-        {/* Hamburger for mobile */}
+        {/* Hamburger*/}
         <button
           type="button"
           onClick={onToggleSidebar}
@@ -78,16 +76,12 @@ const TopBar = ({ onToggleSidebar }) => {
         </p>
       </div>
 
-      {/* Center: page label (hidden on small screens) */}
       <div className="hidden md:block">
         <p className="text-xs text-slate-500">{pageLabel}</p>
       </div>
 
-      {/* Right: avatar + menu */}
       <div className="flex items-center gap-3 relative" ref={menuRef}>
-          {/* === TUTORIAL TARGET WRAPPER === */}
           <div className="profile-icon-wrapper"> 
-              {/* Avatar button */}
             <button
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
@@ -96,9 +90,7 @@ const TopBar = ({ onToggleSidebar }) => {
               {initial}
             </button>
           </div>
-          {/* ============================== */}
 
-        {/* Dropdown panel */}
         {menuOpen && (
           <div className="absolute right-0 top-11 z-40 w-60">
             <div className="rounded-2xl border border-slate-800 bg-slate-950/95 px-4 py-3 shadow-xl shadow-black/70 backdrop-blur">
